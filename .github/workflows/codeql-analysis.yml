@@ -31,8 +31,9 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: ${{ matrix.language }}
-
-    - name: Install deps
+    
+    - if: matrix.language == 'cpp'
+      name: Install deps
       shell: bash
       run: |
        sudo apt-get update && sudo apt-get install libtool cmake automake autoconf make ninja-build curl unzip virtualenv openjdk-11-jdk build-essential libc++1
@@ -42,7 +43,8 @@ jobs:
        tar -xf clang+llvm-11.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz --strip-components 1
        export PATH=bin/clang11/bin:$PATH
     
-    - name: Build
+    - if: matrix.language == 'cpp'
+      name: Build
       run: |
        bazel/setup_clang.sh bin/clang11
        bazelisk shutdown
