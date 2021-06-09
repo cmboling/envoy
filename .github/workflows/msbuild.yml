@@ -1,0 +1,22 @@
+name: MSBuild
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check PATH and env
+      run: |
+        echo $PATH
+        env
+        
+    - name: Check PATH and env
+      run: |
+        which bash
+        /bin/bash
+        exit
+        /usr/bin/env bash
+        exit
