@@ -31,8 +31,10 @@ jobs:
 
     - name: Setup bazel
       run: |
+        # sudo apt-get install bazel=0.23.1
+        sudo apt-get install bazel
         sudo apt-get install bazel=0.23.1
-    
+
     - name: Use bazel
       run: bazel --version
 
