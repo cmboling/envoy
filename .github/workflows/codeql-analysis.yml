@@ -23,6 +23,14 @@ jobs:
         language: [ 'cpp', 'go', 'python' ]
 
     steps:
+    - name: Setup bazel
+      uses: jwlawson/actions-setup-bazel@v1
+      with:
+        bazel-version: '0.23.1'
+    
+    - name: Use bazel
+      run: bazel --version
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
