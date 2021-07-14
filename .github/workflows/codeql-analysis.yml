@@ -63,10 +63,34 @@ jobs:
        bazel/setup_clang.sh bin/clang11
        bazelisk shutdown
        bazelisk build -c fastbuild --spawn_strategy=local --discard_analysis_cache --nouse_action_cache --config clang --config libc++ //source/common/http/...
-    
+
+
     - name: Clean Artifacts
       run: |
         git clean -xdf
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+
+    - name: Zip CodeQL database
+      if: ${{ always() }}
+      id: codeql-database-bundle
+      env:
+        LANGUAGE: ${{ matrix.language }}
+      run: |
+        set -xu
+        CODEQL_DATABASE="/home/runner/work/_temp/codeql_databases/$LANGUAGE"
+        
+        CODEQL_DATABASE_ZIP="codeql-database-$LANGUAGE.zip"
+        zip -r "$CODEQL_DATABASE_ZIP" "$CODEQL_DATABASE"
+
+        echo "::set-output name=zip::$CODEQL_DATABASE_ZIP"
+
+    - name: Upload CodeQL database
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.language }}-db
+        path: ${{ steps.codeql-database-bundle.outputs.zip }}
+
+
