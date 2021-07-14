@@ -20,22 +20,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp', 'go', 'python' ]
+        language: [ 'cpp' ]
 
     steps:
 
-    - name: Use bazel
-      run: |
-        echo "testing bazel version before"
-        bazel --version
+#     - name: Use bazel before
+#       run: |
+#         echo "testing bazel version before"
+#         bazel --version
 
-    - name: Setup Bazel
-      uses: abhinavsingh/setup-bazel@v3
-      with:
-        version: 0.23.1
+#     - name: Setup Bazel
+#       uses: abhinavsingh/setup-bazel@v3
+#       with:
+#         version: 0.23.1
 
-    - name: Use bazel
-      run: bazel version
+#     - name: Use bazel after
+#       run: bazel version
 
     - name: Checkout repository
       uses: actions/checkout@v2
